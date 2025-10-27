@@ -1,0 +1,651 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Story of AI</title>
+
+<style>
+/* ===== BASIC RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, black, #1e293b);
+  color: white;
+  overflow-x: hidden;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  background: rgba(15, 23, 42, 0.9);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+
+.logo {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #f9fafb;
+  font-weight: 500;
+  position: relative;
+  transition: 0.3s;
+}
+
+nav ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0%;
+  height: 2px;
+  background: #3b82f6;
+  transition: 0.3s;
+}
+
+nav ul li a:hover::after {
+  width: 100%;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 150px 80px 50px;
+  height: 100vh;
+}
+
+.text-content {
+  max-width: 50%;
+  animation: fadeInLeft 1.5s ease;
+}
+
+.text-content h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  color: #60a5fa;
+}
+
+.text-content p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #e5e7eb;
+}
+
+.text-content button {
+  margin-top: 25px;
+  background: #3b82f6;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.text-content button:hover {
+  background: #2563eb;
+  transform: scale(1.05);
+}
+
+.image-content {
+  max-width: 45%;
+  animation: fadeInRight 1.5s ease;
+}
+
+.image-content img {
+  width: 1000;
+  height: 500px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .text-content, .image-content {
+    max-width: 100%;
+  }
+
+  .image-content img {
+    margin-top: 40px;
+    width: 90%;
+  }
+}
+.ai-slider-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.ai-video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ai-video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.ai-video.active {
+  opacity: 1;
+}
+
+.video-overlay {
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-align: center;
+  top: 40%;
+  transform: translateY(-50%);
+  font-family: 'Poppins', sans-serif;
+}
+
+.video-overlay h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.video-overlay p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* Dots styling */
+.video-dots {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  z-index: 3;
+}
+
+.dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0 6px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: white;
+}
+.cards-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 60px 10%;
+}
+
+.card {
+  
+  color: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(0);
+  transition: all 0.4s ease;
+  position: relative;
+  margin-top: 50px;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 30px rgba(255, 255, 255, 0.2);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 3px solid #00ffcc;
+}
+
+.card-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.card-content h3 {
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  color: #00ffcc;
+}
+
+.card-content p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #ccc;
+}
+
+/* Animation for smooth entrance */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeInUp 1s ease forwards;
+
+}
+
+.par{
+    color  :#0a0a0a;
+    text-align: center;
+    font: bold;
+}
+
+  footer {
+    background: linear-gradient(135deg, #000000, #0a0f1c);
+    color: #d1d1d1;
+    padding: 50px 0 20px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .footer-section {
+    flex: 1;
+    min-width: 250px;
+    margin: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .footer-section:hover {
+    transform: translateY(-5px);
+  }
+
+  .footer-section h3 {
+    color: #00bcd4;
+    margin-bottom: 15px;
+    position: relative;
+  }
+
+  .footer-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background: #00bcd4;
+  }
+
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-section ul li {
+    margin: 8px 0;
+  }
+
+  .footer-section ul li a {
+    text-decoration: none;
+    color: #d1d1d1;
+    transition: color 0.3s;
+  }
+
+  .footer-section ul li a:hover {
+    color: #00bcd4;
+  }
+
+  .social-icons a {
+    display: inline-block;
+    margin-right: 10px;
+    color: #00bcd4;
+    font-size: 20px;
+    transition: transform 0.3s, color 0.3s;
+  }
+
+  .social-icons a:hover {
+    color: #fff;
+    transform: scale(1.2);
+  }
+
+  hr {
+    border: 0.5px solid #222;
+    margin: 20px auto;
+    max-width: 1200px;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+  }
+
+  @media (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-social .social-icons a {
+    margin-right: 10px;
+  }
+}
+.navbar .nav-items a:hover {
+  color: #ff6600;
+}
+
+.login-btn {
+  padding: 8px 18px;
+  background-color: #ff6600;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.login-btn:hover {
+  background-color: #e55b00;
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <div class="logo">Story of AI</div>
+  <ul>
+    <li><a href="">Home</a></li>
+    <li><a href="ai story.html">Story</a></li>
+    <li><a href="https://www.bing.com/images?FORM=HDRSC3">Gallery</a></li>
+    <li><a href="about ai.html">About</a></li>
+    <li><a href="http://localhost/hussain/aicontact.html">Contact</a></li>
+  </ul>
+  <button id="loginBtn" style="padding:8px 15px; background-color:#ff6600; border:none; color:white; cursor:pointer; border-radius:5px;">Login</button>
+
+<div id="loginModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+  <div style="background:white; padding:20px; border-radius:10px; width:300px; text-align:center;">
+    <h3>Login</h3>
+    
+    <!-- Form Start -->
+    <form id="loginForm" action="login.php" method="POST">
+      <input type="text" name="username" placeholder="Username" style="width:90%; padding:8px; margin:5px 0;" required>
+      <input type="password" name="password" placeholder="Password" style="width:90%; padding:8px; margin:5px 0;" required>
+      <button type="submit" style="padding:8px 15px; background-color:#1a1a1a; color:white; border:none; cursor:pointer; border-radius:5px; margin-top:10px;">Submit</button>
+    </form>
+    <!-- Form End -->
+
+    <button id="closeModal" style="padding:5px 10px; background-color:red; color:white; border:none; cursor:pointer; border-radius:5px; margin-top:10px;">Close</button>
+  </div>
+</div>
+
+<script>
+const loginBtn = document.getElementById('loginBtn');
+const loginModal = document.getElementById('loginModal');
+const closeModal = document.getElementById('closeModal');
+
+loginBtn.addEventListener('click', () => {
+  loginModal.style.display = 'flex';
+});
+
+closeModal.addEventListener('click', () => {
+  loginModal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+  if(e.target === loginModal){
+    loginModal.style.display = 'none';
+  }
+});
+</script></nav>
+
+<section class="hero">
+  <div class="text-content">
+    <h1>The Rise of Artificial Intelligence</h1>
+    <p>
+      Artificial Intelligence (AI) is transforming our world.  
+      From smart assistants to self-driving cars, AI is learning  
+      to think, understand, and make decisions like humans.  
+      The story of AI is not just technology — it’s the story of human imagination and innovation.
+    </p>
+    <button onclick="scrollDown()">Explore More</button>
+  </div>
+
+  <div class="image-content">
+    <img src="ai pic 11.jpg" alt="AI Image">
+  </div>
+</section>
+<br><br>
+  <div class="video-overlay">
+    <h1>The Future of Artificial Intelligence</h1>
+    <p>Experience the power of AI through imagination, innovation, and evolution.</p>
+  </div>
+<section class="ai-slider-section">
+  <div class="ai-video-container">
+    <video class="ai-video active" autoplay muted loop>
+      <source src="ai video 1.mp4" type="video/mp4">
+    </video>
+    <video class="ai-video" muted loop>
+      <source src="1236-144355017_large.mp4" type="video/mp4">
+    </video>
+    <video class="ai-video" muted loop>
+      <source src="ai video 1.mp4" type="video/mp4">
+    </video>
+  </div>
+
+
+
+  <!-- Dots for slide indication -->
+  <div class="video-dots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+</section>
+<script>
+  const videos = document.querySelectorAll('.ai-video');
+  const dots = document.querySelectorAll('.dot');
+  let current = 0;
+
+  function showNextVideo() {
+    videos[current].classList.remove('active');
+    dots[current].classList.remove('active');
+
+    current = (current + 1) % videos.length;
+
+    videos[current].classList.add('active');
+    dots[current].classList.add('active');
+
+    videos[current].play();
+  }
+
+  setInterval(showNextVideo, 7000); // ہر 7 سیکنڈ بعد ویڈیو change ہوگی
+</script>
+<script>
+function scrollDown() {
+  window.scrollTo({
+    top: window.innerHeight,
+    behavior: 'smooth'
+  });
+}
+</script>
+
+<br>
+<br>
+<section class="cards-section">
+  <div class="card">
+    <img src="ai pic 8.jpg" alt="AI Image 1">
+    <div class="card-content">
+      <h3>Artificial Vision</h3>
+      <p>AI helps computers see and understand images like humans.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="ai pic.png" alt="AI Image 2">
+    <div class="card-content">
+      <h3>Smart Robots</h3>
+      <p>Robotics powered by AI can learn, adapt, and perform complex tasks.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="ai pic 5.webp" alt="AI Image 3">
+    <div class="card-content">
+      <h3>Machine Learning</h3>
+      <p>Machines improve from data and experience without being reprogrammed.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="ai pic 7.webp" alt="AI Image 4">
+    <div class="card-content">
+      <h3>Neural Networks</h3>
+      <p>Inspired by the human brain, neural networks drive deep learning.</p>
+    </div>
+  </div>
+</section>
+<br>
+
+<footer>
+  <div class="footer-container">
+    <!-- About -->
+    <div class="footer-section">
+      <h3>About Hussain</h3>
+      <p>
+        Welcome to Hussain’s AI Website — where innovation meets simplicity.
+        We build smart, elegant web solutions that combine creativity with technology.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="45.html">Home</a></li>
+        <li><a href="ai_content.html">Contact</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="footer-section">
+      <h3>Contact Info</h3>
+      <p><b>Address:</b> Lahore, Pakistan</p>
+      <p><b>Phone:</b> +92 304 4777293</p>
+      <p><b>Email:</b> hussain78907891@gmail.com</p>
+    </div>
+
+    <!-- Social Links -->
+    <div class="footer-section">
+      <h3>Follow Me</h3>
+      <div class="social-icons">
+        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="#"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="footer-bottom">
+    © 2025 <b>Hussain</b>. All Rights Reserved | Designed by <b>Hussain</b>
+  </div>
+</footer>
+
+<!-- Font Awesome (for icons) -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
+</body>
+</html>
